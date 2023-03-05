@@ -53,7 +53,11 @@ const Navbar: React.FC = () => {
           <label tabIndex={0} className="btn-ghost btn-circle avatar btn">
             <div className="w-10 rounded-full">
               {sessionData?.user?.image ? (
-                <Image src={sessionData.user.image} alt="profile picture" />
+                <Image
+                  src={sessionData.user.image}
+                  fill
+                  alt="profile picture"
+                />
               ) : (
                 <Image src={profilePic} alt="default profile picture" />
               )}
