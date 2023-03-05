@@ -1,17 +1,18 @@
 import { signIn, signOut, useSession } from "next-auth/react";
 import Image from "next/image";
 import profilePic from "../assets/images/profile.jpg";
+import Link from "next/link";
 
 const Navbar: React.FC = () => {
   const { data: sessionData } = useSession();
   return (
-    <div className="navbar bg-base-100">
+    <div className="navbar shadow-sm">
       <div className="flex-1">
-        <a className="btn-ghost btn text-xl normal-case">
+        <Link href="/" className="btn-ghost btn text-xl normal-case">
           {sessionData?.user?.name
             ? `${sessionData.user.name}'s Kitchen Genie`
             : ""}
-        </a>
+        </Link>
       </div>
       <div className="flex-none">
         {/*
