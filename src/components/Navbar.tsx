@@ -7,7 +7,7 @@ const Navbar: React.FC = () => {
   const { data: sessionData } = useSession();
   return (
     <div className="navbar flex justify-between shadow-sm">
-      <Link href="/" className="btn-ghost btn flex-shrink text-xl normal-case">
+      <Link href="" className="btn-ghost btn flex-shrink text-xl normal-case">
         {sessionData?.user?.name
           ? `${sessionData.user.name}'s Kitchen Genie`
           : "Kitchen Genie"}
