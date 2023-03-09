@@ -51,7 +51,11 @@ const Search: React.FC = () => {
       <article className="prose">
         <h2>Genie Generated Recipe:</h2>
 
-        {loading && <ClimbingBoxLoader color="pink" />}
+        {loading && (
+          <div className="my-5 flex w-full justify-start">
+            <ClimbingBoxLoader className="" size={25} color="pink" />
+          </div>
+        )}
         <ReactMarkdown>{recipes}</ReactMarkdown>
       </article>
     </>
