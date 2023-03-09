@@ -1,10 +1,8 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { useSession, signIn } from "next-auth/react";
-import { api } from "~/utils/api";
 import ReactMarkdown from "react-markdown";
-import Link from "next/link";
+import { ClimbingBoxLoader } from "react-spinners";
 
 const Search: React.FC = () => {
   const [recipes, setRecipes] = useState<string>("");
@@ -15,6 +13,7 @@ const Search: React.FC = () => {
     e: React.FormEvent<HTMLFormElement>
   ): Promise<void> {
     e.preventDefault();
+    setRecipes("");
     setLoading(true);
     const response = await fetch(
       `/api/recipe/?ingredients=${ingredientsRef.current?.value as string}`,
@@ -52,6 +51,7 @@ const Search: React.FC = () => {
       <article className="prose">
         <h2>Genie Generated Recipe:</h2>
 
+        {loading && <ClimbingBoxLoader color="pink" />}
         <ReactMarkdown>{recipes}</ReactMarkdown>
       </article>
     </>
