@@ -64,13 +64,9 @@ const Search: React.FC = () => {
           </article>
         </>
       ) : (
-        <div className="flex flex-col items-center justify-center gap-5">
+        <div className="flex flex-col items-center justify-center gap-5 text-center">
           <h1 className="text-5xl font-bold">You need to be signed in!</h1>
-          <Link
-            onClick={sessionData ? () => void signOut() : () => void signIn()}
-            href=""
-            className="justify-between"
-          >
+          <Link onClick={void signIn()} href="" className="justify-between">
             <button className="btn-primary btn rounded-md">Sign in</button>
           </Link>
         </div>
