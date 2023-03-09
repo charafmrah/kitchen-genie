@@ -52,7 +52,7 @@ const Search: React.FC = () => {
         <h2>Genie Generated Recipe:</h2>
 
         {loading && (
-          <div className="my-5 flex w-full justify-start">
+          <div className="my-5 flex w-full justify-center lg:justify-start">
             <ClimbingBoxLoader className="" size={25} color="pink" />
           </div>
         )}
