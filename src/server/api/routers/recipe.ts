@@ -9,26 +9,40 @@ const configuration = new Configuration({
 });
 
 const openai = new OpenAIApi(configuration);
-const prePrompt =
-  "From the following ingredients, I would like you to make a recipe: ";
+
+interface ChatMessage {
+  role: "user" | "assistant" | "system";
+  content: string;
+}
 
 async function getCompletion(prompt: string) {
-  console.log(prompt);
-  return await openai.createCompletion({
+  const messages: ChatMessage[] = [
+    {
+      role: "system",
+      content:
+        "From the following ingredients, I would like you to make a recipe: ",
+    },
+    { role: "user", content: prompt },
+    { role: "assistant", content: "ChatGPT Response here" },
+  ];
+  const chatGPT = await openai.createChatCompletion({
     model: "gpt-3.5-turbo",
-    prompt: prePrompt + prompt,
-    temperature: 0,
-    max_tokens: 7,
+    messages,
   });
+
+  return chatGPT?.data?.choices[0]?.message;
 }
 
 export const recipeRouter = createTRPCRouter({
-  generate: protectedProcedure.input(z.string()).mutation(async ({ input }) => {
-    const response = await getCompletion(input).catch((err) => {
-      console.log(err);
-    });
-    return response;
-  }),
+  generate: protectedProcedure
+    .input(z.string())
+    .query(async ({ ctx, input }) => {
+      const completion = await getCompletion(input);
+      if (completion) {
+        return completion;
+      }
+      return "The genie is sleeping";
+    }),
 
   getAll: protectedProcedure.query(({ ctx }) => {
     return ctx.prisma.recipe.findMany({

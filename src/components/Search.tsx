@@ -3,11 +3,18 @@
 import React, { useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import { ClimbingBoxLoader } from "react-spinners";
+import { api } from "~/utils/api";
 
 const Search: React.FC = () => {
   const [recipes, setRecipes] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
   const ingredientsRef = useRef<HTMLTextAreaElement>(null);
+
+  const generateRecipe = api.recipe.generate.useQuery(
+    ingredientsRef.current?.value === ""
+      ? (ingredientsRef.current.value as string)
+      : "Tomato soup"
+  );
 
   async function handleSubmit(
     e: React.FormEvent<HTMLFormElement>
@@ -15,7 +22,7 @@ const Search: React.FC = () => {
     e.preventDefault();
     setRecipes("");
     setLoading(true);
-    const response = await fetch(
+    /*const response = await fetch(
       `/api/recipe/?ingredients=${ingredientsRef.current?.value as string}`,
       {
         method: "POST",
@@ -24,13 +31,17 @@ const Search: React.FC = () => {
         },
       }
     );
-    const data = (await response.json()) as string;
-    setRecipes(data);
+    const data = (await response.json()) as string;*/
+    await generateRecipe.refetch();
+    console.log(generateRecipe);
+
+    setRecipes(generateRecipe.data as string);
     setLoading(false);
   }
 
   return (
     <>
+      {JSON.stringify(generateRecipe, null, 2)}
       <form
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={handleSubmit}

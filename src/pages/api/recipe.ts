@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { env } from "~/env.mjs";
-import { Configuration, OpenAIApi } from "openai";
 
 interface MessageData {
   id: string;
